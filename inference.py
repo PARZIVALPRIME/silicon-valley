@@ -28,7 +28,7 @@ from models import ActionType, SiliconMindAction
 
 # ── Configuration ────────────────────────────────────────────────────────
 
-MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
+MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o-mini")
 BENCHMARK = "silicon_mind"
 TEMPERATURE = 0.0
 MAX_TOKENS = 256
