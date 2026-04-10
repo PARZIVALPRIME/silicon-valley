@@ -1,3 +1,12 @@
+---
+title: Silicon Mind
+emoji: 🧠
+colorFrom: red
+colorTo: red
+sdk: docker
+pinned: false
+---
+
 # SiliconMind — Memory Subsystem Intelligence Gym 🧠⚡
 
 > *The first OpenEnv environment that benchmarks whether AI agents can optimize CPU cache prefetching — a $100B+ industry problem affecting every modern processor.*
@@ -88,7 +97,7 @@ uvicorn server.app:app --host 0.0.0.0 --port 7860
 
 # Run baseline inference
 export API_BASE_URL="https://api.example.com/v1"
-export API_KEY="your-key"
+export HF_TOKEN="your-key"
 python inference.py
 ```
 
