@@ -1,0 +1,107 @@
+# SiliconMind — OpenEnv Environment Specification
+# Memory Subsystem Intelligence Gym
+# "Teaching AI agents to bridge the Memory Wall."
+
+name: silicon_mind
+version: "0.1.0"
+title: "SiliconMind — Memory Subsystem Intelligence Gym"
+description: >
+  The first OpenEnv environment that benchmarks whether AI agents can
+  optimize CPU cache prefetching — a $100B+ industry problem affecting
+  every modern processor. Agents control prefetch strategy, cache
+  partitioning, and bandwidth throttling across competing workloads.
+
+# OpenEnv API interface
+interface:
+  reset:
+    method: POST
+    path: /reset
+    request:
+      task_id: string
+    response: Observation
+  step:
+    method: POST
+    path: /step
+    request: Action
+    response: StepResult
+  state:
+    method: GET
+    path: /state
+    response: State
+
+# Tasks (easy → medium → hard → extreme)
+tasks:
+  - id: easy_pattern_scout
+    title: "Pattern Scout"
+    difficulty: easy
+    graders: ["accuracy", "coverage", "restraint", "timeliness"]
+    description: "Sequential and stride patterns. Single cache level. Learn to prefetch obvious patterns and hold back on noise."
+    max_steps: 140
+    expected_baseline_score: "0.40-0.60"
+
+  - id: medium_workload_whisperer
+    title: "Workload Whisperer"
+    difficulty: medium
+    graders: ["accuracy", "coverage", "pollution", "bandwidth", "adaptation", "restraint"]
+    description: "ML training loop with phase changes. Multi-level cache. Bandwidth pressure. Adapt to pattern inversions."
+    max_steps: 500
+    expected_baseline_score: "0.25-0.40"
+
+  - id: hard_noisy_neighbor
+    title: "Noisy Neighbor Arbitrator"
+    difficulty: hard
+    graders: ["sla", "pollution", "fairness", "coverage", "bandwidth", "accuracy", "timeliness", "restraint"]
+    description: "3 competing workloads. Shared LLC. Cache partitioning. SLA compliance. Fairness constraints."
+    max_steps: 750
+    expected_baseline_score: "0.10-0.25"
+
+  - id: extreme_silicon_architect
+    title: "Silicon Architect"
+    difficulty: extreme
+    graders: ["coverage", "accuracy", "pollution", "cross_core_pollution", "fairness", "bandwidth", "adaptation", "sla", "timeliness", "restraint"]
+    description: "Multi-core with regime change. Cross-core LLC sharing. Workload migration mid-episode. 8 MSHRs only."
+    max_steps: 1000
+    expected_baseline_score: "0.00-0.12"
+
+# Grading
+grading:
+  type: deterministic
+  range: [0.0, 1.0]
+  notes:
+    - "No LLM-based grading — pure deterministic math"
+    - "Coverage measured against automatic no-prefetch baseline"
+    - "Fairness uses Jain's Fairness Index"
+    - "All scores clamped to (0.01, 0.99)"
+    - "Reward uses Pythia 9-level classification (RAT/RAL/RIN_L/RIN_H/...)"
+
+# Per-step dense reward
+reward:
+  range: [0.0, 1.0]
+  classification: "Pythia-inspired 9-level (RAT=+20 to POLLUTION=-18, normalized)"
+  components:
+    accuracy: 0.25
+    coverage: 0.20
+    pollution: 0.20
+    bandwidth: 0.15
+    timeliness: 0.10
+    restraint: 0.10
+
+# Key differentiators
+features:
+  - llm_native_observations: "Natural language narrative field optimized for LLM reasoning"
+  - pythia_reward_system: "Research-grade 9-level reward classification from MICRO '21"
+  - prefetch_forensics: "Complete lifecycle tracking for every prefetch issued"
+  - counterfactual_baselines: "Automatic no-prefetch baseline for coverage scoring"
+  - regime_change_detection: "Pattern confidence signal drops on workload transitions"
+  - jain_fairness_index: "Industry-standard fairness metric for multi-tenant scoring"
+  - cross_core_pollution: "Cross-core eviction tracking with 2× penalty"
+
+# Deployment
+deployment:
+  docker: true
+  port: 7860
+  resources:
+    vcpu: 2
+    ram_gb: 8
+    max_runtime_min: 20
+  huggingface_spaces: true
