@@ -9,7 +9,7 @@ decisions.  Follows the MANDATORY competition format:
 
 Environment variables (required by competition):
   API_BASE_URL  — LLM API endpoint
-  API_KEY       — Authentication token
+  HF_TOKEN      — Authentication token
   MODEL_NAME    — Model identifier (optional, defaults to Qwen2.5-72B)
 """
 
@@ -211,8 +211,8 @@ def main() -> None:
     """Run all tasks sequentially."""
     # Initialize clients
     llm_client = OpenAI(
-        base_url=os.environ["API_BASE_URL"],
-        api_key=os.environ["API_KEY"],
+        base_url=os.environ.get("API_BASE_URL", "http://localhost:1234/v1"),
+        api_key=os.environ.get("HF_TOKEN", os.environ.get("API_KEY", "dummy")),
     )
     env_client = SiliconMindClient(ENV_URL)
 
